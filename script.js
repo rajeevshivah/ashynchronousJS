@@ -47,40 +47,75 @@ const renderCountry=function(data,className=''){
   </div>
 </article>
   `
-
   countriesContainer.insertAdjacentHTML('beforeend',html)
   countriesContainer.style.opacity=1
 }
-const getCountryAndNeighbour=function(country){
+// const getCountryAndNeighbour=function(country){
 
-  //AJAX call 1
-  const request=new XMLHttpRequest()
-  request.open('GET',`https://restcountries.com/v2/name/${country}`)
-  request.send()
-  request.addEventListener('load',function(){
-      const [data]=JSON.parse(this.responseText)
-      console.log(data)
-      //render country 1
-      renderCountry(data)
+//   //AJAX call 1
+//   const request=new XMLHttpRequest()
+//   request.open('GET',`https://restcountries.com/v2/name/${country}`)
+//   request.send()
+//   request.addEventListener('load',function(){
+//       const [data]=JSON.parse(this.responseText)
+//       console.log(data)
+//       //render country 1
+//       renderCountry(data)
 
-      //Get neighbour country (2)
-      const [neighbour]=data.borders
+//       //Get neighbour country (2)
+//       const [neighbour]=data.borders
 
-      if(!neighbour) return;
+//       if(!neighbour) return;
 
-      //AJAX call 2
-  const request2=new XMLHttpRequest()
-  request2.open('GET',`https://restcountries.com/v2/alpha/${neighbour}`)
-  request2.send()
+//       //AJAX call 2
+//   const request2=new XMLHttpRequest()
+//   request2.open('GET',`https://restcountries.com/v2/alpha/${neighbour}`)
+//   request2.send()
 
-  request2.addEventListener('load',function(){
-    const data2=JSON.parse(this.responseText)
-    renderCountry(data2,'neighbour')
-  })
+//   request2.addEventListener('load',function(){
+//     const data2=JSON.parse(this.responseText)
+//     renderCountry(data2,'neighbour')
+//   })
   
   
-  })
-  }
+//   })
+//   }
 
-  //getCountryAndNeighbour('portugal')
-  getCountryAndNeighbour('bharat')
+//   //getCountryAndNeighbour('portugal')
+//   getCountryAndNeighbour('bhara')
+// const request=new XMLHttpRequest()
+// request.open('GET',`https://restcountries.com/v2/name/${country}`)
+// request.send()
+
+
+// const request=fetch('https://restcountries.com/v2/name/portugal')
+// console.log(request)
+
+
+
+
+// const getCountryData=function(country){
+//   fetch(`https://restcountries.com/v2/name/${country}`).then(function(response){
+//     // console.log(response)
+//     return response.json()
+//   }).then(function(data){
+//     console.log(data)
+//     renderCountry(data[0])
+//   })
+//}
+
+const getCountryData=function(country){
+  fetch(`https://restcountries.com/v2/name/${country}`)
+  .then(response=>response.json())
+  .then(data=>renderCountry(data[0]))
+}
+getCountryData('portugal')
+
+
+
+
+
+
+
+
+
