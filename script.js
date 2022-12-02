@@ -3,6 +3,10 @@
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
 
+const renderError=function(msg){
+  countriesContainer.insertAdjacentText('beforeend',msg)
+  // countriesContainer.style.opacity=1
+}
 ///////////////////////////////////////
 // const getCountryData=function(country){
 // const request=new XMLHttpRequest()
@@ -48,7 +52,7 @@ const renderCountry=function(data,className=''){
 </article>
   `
   countriesContainer.insertAdjacentHTML('beforeend',html)
-  countriesContainer.style.opacity=1
+  // countriesContainer.style.opacity=1
 }
 // const getCountryAndNeighbour=function(country){
 
@@ -105,14 +109,29 @@ const renderCountry=function(data,className=''){
 //}
 
 const getCountryData=function(country){
+  //country 1
   fetch(`https://restcountries.com/v2/name/${country}`)
   .then(response=>response.json())
-  .then(data=>renderCountry(data[0]))
+  .then(data=>{
+    renderCountry(data[0])
+    const neighbour=data[0].borders[0]
+    if(!neighbour) return
+    //country 2
+    return fetch(`https://restcountries.com/v2/alpha/${neighbour}`)
+  }).then(response=>response.json())
+  .then(data=>renderCountry(data,'neighbour'))
+  .catch(err=>{
+    console.error(`${err}`)
+    renderError(`Something went wrong ${err.message} 🔥🔥`)
+  })
+  .finally(()=>{
+    countriesContainer.style.opacity=1    
+  })
 }
-getCountryData('portugal')
+// getCountryData('portugal')
 
 
-
+btn.addEventListener('click',()=>getCountryData('portugal'))
 
 
 
